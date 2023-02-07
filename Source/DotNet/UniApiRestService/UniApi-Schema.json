@@ -1,0 +1,94 @@
+{
+	"$id": "https://digitale_delta/uni_api.json",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "waterkwaliteit-api",
+	"type": "object",
+	"properties": {
+		"measurementObjects": {
+			"description": "Meetobjecten/locaties",
+			"type": "array",
+			"items": { "$ref": "#/$defs/measurementObjectType" },
+			"minItems": 1
+		},
+		"measurements": {
+			"description": "Metingen",
+			"type": "array",
+			"items": { "$ref": "#/$defs/measurementType" },
+			"minItems": 1
+		}
+	},
+	"$defs": {
+		"measurementObjectType": {
+			"type": "object",
+			"properties": {
+				"namespace": { "type": "string", "description": "Verwijzing van bronhouder. Formaat: 'NLxx', xx=cijfercode waterbeheerder." },
+				"localId": { "type": "string", "description": "Lokale identificatie van het meetpunt/meetobject volgens bronhouder." },
+				"description": { "type": "string", "description": "Omschrijving van het meetpunt/meetobject (max. 100 tekens). Opgelet! Gebruik alleen de tekens 'A-Z','a-z','0-9','_','-', vooral geen ';'!" },
+				"geometry": { "$ref": "https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/geojson.json#geometry" },
+				"krwWaterTypeCode": { "type": "string", "description": "Aquo-code van het KRW-watertype." },
+				"waterCourseCategoryCode": { "type": "string", "description": "Code van de watergangcategorie waarin het meetpunt ligt: A - Primaire watergang, B - Secundaire watergang, C - Tertiaire watergang, O - Overige watergangen", "enum": [ "A", "B", "C", "O" ] },
+				"locatedInGeoObject": { "type": "string", "description": "Code/identificatie van een geoobject waarin het meetpunt ligt. Een identificatie moet beperkt zijn tot 36 tekens en mag alleen de tekens 'A-Z','a-z','0-9','_','-' bevatten" },
+				"belongsToGeoObject": { "type": "string", "description": "Code/identificatie  van een geoobject waar het meetpunt bij hoort, bijv. de KRW-monitoringlocatie. Een identificatie moet beperkt zijn tot 36 tekens en mag alleen de tekens  Een identificatie moet beperkt zijn tot 36 tekens en mag alleen de tekens 'A-Z','a-z','0-9','_','-' bevatten" },
+				"weightingFactor": { "type": "string", "description": "Factor die de bijdrage (naar rato van het oppervlak) van het meetpunt aan het oordeel van 'HoortBijGeoObject' weergeeft. Deze wegingsfactor moet dus evenredig zijn met de oppervlakte die het meetpunt representeert. De som van de wegingsfactoren (per KRW. mon.loc.) hoeft geen 1 te zijn, en kan dus de getalswaarde van de representatieve oppervlakte bevatten" }
+			},
+			"required": [ "namespace", "localId", "description", "geometry", "krwWaterTypeCode" ]
+		},
+		"measurementType": {
+			"description": "",
+			"type": "object",
+			"properties": {
+				"namespace": { "type": "string" },
+				"measurementObject": {
+					"type": "object",
+					"properties": {
+						"namespace": { "type": "string", "description": "Verwijzing van bronhouder. Formaat: 'NLxx', xx=cijfercode waterbeheerder." },
+						"localId": { "type": "string", "description": "Lokale identificatie van het meetpunt/meetobject volgens bronhouder." }
+					},
+					"required": [ "namespace", "localId" ]
+				},
+				"sample": {
+					"type": "object",
+					"properties": {
+						"localId": { "type": "string" },
+						"namespace": { "type": "string" },
+						"samplingCompartment": { "type": "string" },
+						"phenomenonTime": { "type": "string", "description": "Bemonsteringsdatum/tijd.", "format": "date-time" },
+						"geometry": { "$ref": "https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/geojson.json#geometry" },
+						"samplingMethod": { "type": "string" },
+						"samplePreparationMethod": { "type": "string" }
+					},
+					"required": ["localId", "namespace", "samplingCompartment", "phenomenonTime" ]
+				},
+				"measurement": {
+					"type": "object",
+					"properties": {
+						"localId": { "type": "string" },
+						"resultTime": { "type": "string", "description": "Meetdatum/tijd.", "format": "date-time" },
+						"quantity": { "type": "string", "description": "Grootheid." },
+						"parameter": { "type": "string", "description": "Geobserveerde parameter." },
+						"unit": { "type": "string", "description": "Eenheid. Mag ontbreken indien de waarde geen dimensie heeft." },
+						"analysisCompartment": { "type": "string" },
+						"value": { "type": "number", "description": "Numerieke waarde." },
+						"classificationValue": { "type": "string", "description": "Alfanumerieke waarde (classificatie)." },
+						"limitSymbol": { "type": "string", "description": "Limietsymbool.", "enum": [ "<", ">" ] },
+						"locationTypeValueDetermination": { "type": "string" },
+						"valuationMethod": { "type": "string" },
+						"condition": { "type": "string", "description": "Hoedanigheid." },
+						"biota": {
+							"type": "object",
+							"properties": {
+								"stageOfLife": { "type": "string", "description": "Levensstadium." },
+								"lengthClass": { "type": "string", "description": "Lengteklasse." },
+								"gender": { "type": "string", "description": "Geslacht." },
+								"appearance": { "type": "string", "description": "Verschijningsvorm." },
+								"lifeForm": { "type": "string", "description": "Levensvorm." },
+								"behaviour": { "type": "string", "description": "Gedrag." }
+							}
+						}
+					},
+					"required": [ "localId", "resultTime", "quantity" ]
+				}
+			}
+		}
+	}
+}

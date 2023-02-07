@@ -1,0 +1,240 @@
+﻿{
+	"$id": "https://todo/fixme",
+	"definitions": {
+		"observationRoles": {
+			"observed": {
+				"description": "observed",
+				"source": [
+					"AQUO"
+				]
+			},
+			"calculated": {
+				"description": "calculated",
+				"source": [
+					"AQUO"
+				]
+			},
+			"coordinates": {
+				"description": "coordinates"
+			}
+		},
+		"parameterRoles": {
+			"taxon": {
+				"description": "taxon",
+				"sources": [
+					"TWN list"
+				]
+			},
+			"compartment": {
+				"description": "Compartimenten",
+				"source": [
+					"AQUO"
+				]
+			},
+			"stageOfLife": {
+				"description": "Levensstadium",
+				"source": [
+					"AQUO"
+				]
+			},
+			"lifeForm": {
+				"description": "Levensvormen",
+				"source": [
+					"AQUO"
+				]
+			}
+		},
+		"parameter": {
+			"Amphora [2]": {
+				"reference": "https://",
+				"taxontype": "DIATM",
+				"source": [
+					"TWN list"
+				]
+			}
+		},
+		"stageOfLife": {
+			"AD": {
+				"description": "Volwassen",
+				"reference": "https://",
+				"source": [
+					"AQUO"
+				]
+			},
+			"JU": {
+				"description": "Juveniel",
+				"reference": "https://",
+				"source": [
+					"AQUO"
+				]
+			},
+			"lifeForm": {
+				"CEL": {
+					"description": "Cel",
+					"reference": "https://",
+					"source": [
+						"AQUO"
+					]
+				},
+				"CO": {
+					"description": "Cel",
+					"reference": "https://",
+					"source": [
+						"AQUO"
+					]
+				}
+			},
+			"quantities": {
+				"AANTLFTE": {
+					"description": "Aantalfractie",
+					"reference": "https://",
+					"source": [
+						"AQUO"
+					]
+				}
+			},
+			"measurementObject": [
+				{
+					"NL80": {
+						"VEEN": {
+							"description": "VEEN",
+							"reference": "",
+							"source": [
+								"NL80"
+							],
+							"geometry": {
+								"type": "Feature",
+								"geometry": {
+									"type": "Point",
+									"coordinates": [
+										125.6,
+										10.1
+									],
+									"properties": {
+										"name": "Dinagat Islands"
+									}
+								}
+							}
+						}
+					}
+				}
+			],
+			"observer": {
+				"AES": {
+					"description": "EuroFins/AquaSense",
+					"reference": "",
+					"source": [
+						"NL80"
+					]
+				}
+			},
+			"project": {
+				"NL80": {
+					"PROJ1": {
+						"description": "Monitoring",
+						"reference": "",
+						"source": [
+							"NL80"
+						]
+					}
+				},
+				"procedure": {
+					"DIATM_S002": {
+						"description": "Diatomeeën bemonstering",
+						"reference": "",
+						"source": [
+							"NL80"
+						]
+					}
+				},
+				"compartment": {
+					"OW": {
+						"description": "Oppervlaktewater",
+						"reference": "",
+						"source": [
+							"Aquo"
+						]
+					}
+				},
+				"uom": {
+					"%": {
+						"description": "Percentage",
+						"reference": "",
+						"source": [
+							"Aquo"
+						]
+					}
+				}
+			}
+		},
+		"observations": [
+			{
+				"id": "8e29-988117da1fb4-1",
+				"ultimateFeatureOfInterest": "/definitions/measurementObject/NL80/VEEN",
+				"observer": "/definitions/observer/AES",
+				"deployment": "/definitions/project/NL80/PROJ1",
+				"observingProcedure": "/definitions/procedure/DIATM_S002",
+				"resultTime": "2020-01-01T00:00:00Z",
+				"parameter": [
+					{
+						"role": "/definitions/parameterRoles/taxon",
+						"value": "/definitions/parameterRoles/Amphora [2]"
+					},
+					{
+						"role": "/definitions/parameterRoles/stageOfLife",
+						"value": "/definitions/stageOfLife/AD"
+					},
+					{
+						"role": "/definitions/parameterRoles/compartment",
+						"value": "/definitions/compartment/OW"
+					}
+				],
+				"observableProperty": "/definitions/quantities/AANTL",
+				"result": {
+					"type": "count",
+					"measureValue": 12
+				},
+				"relatedObservation": [
+					{
+						"id": "8e29-988117da1fb4-2",
+						"role": "/definitions/observationRoles/calculated"
+					}
+				]
+			},
+			{
+				"id": "8e29-988117da1fb4-2",
+				"ultimateFeatureOfInterest": "/definitions/measurementObject/NL80/VEEN",
+				"observer": "/definitions/observer/AES",
+				"deployment": "/definitions/project/NL80/PROJ1",
+				"observingProcedure": "/definitions/procedure/DIATM_S002",
+				"resultTime": "2020-01-01T00:00:00Z",
+				"parameter": [
+					{
+						"role": "/definitions/parameterRoles/taxon",
+						"value": "/definitions/taxon/Amphora [2]"
+					},
+					{
+						"role": "/definitions/parameterRoles/stageOfLife",
+						"value": "/definitions/stageOfLife/AD"
+					},
+					{
+						"role": "/definitions/parameterRoles/compartment",
+						"value": "/definitions/compartment/OW"
+					}
+				],
+				"observableProperty": "/definitions/quantities/AANTLFTE",
+				"result": {
+					"type": "measure",
+					"measureValue": 0.5,
+					"UOM": "/definitions/uom/%"
+				},
+				"relatedObservation": [
+					{
+						"id": "8e29-988117da1fb4-1",
+						"role": "/definitions/observationRoles/measured"
+					}
+				]
+			}
+		]
+	}
+}

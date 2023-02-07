@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="dbup-core" Version="5.0.10" />
+      <PackageReference Include="dbup-sqlserver" Version="5.0.8" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+      <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.0" />
+      <PackageReference Include="Microsoft.OData.Core" Version="7.14.0" />
+      <PackageReference Include="Microsoft.Spatial" Version="7.14.0" />
+      <PackageReference Include="Npgsql" Version="7.0.1" />
+      <PackageReference Include="Npgsql.NetTopologySuite" Version="7.0.1" />
+      <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+      <PackageReference Include="System.Text.Json" Version="7.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DatabaseModel\DatabaseModel.csproj" />
+    </ItemGroup>
+
+</Project>

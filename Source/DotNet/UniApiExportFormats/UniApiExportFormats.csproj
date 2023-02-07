@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile></DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile></DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DatabaseModel\DatabaseModel.csproj" />
+      <ProjectReference Include="..\DigitaleDelta\DigitaleDelta.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="dbup-core" Version="5.0.10" />
+      <PackageReference Include="dbup-sqlserver" Version="5.0.8" />
+      <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.0" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Apparatus.Dapper.Json" Version="0.1.2" />
+        <PackageReference Include="Apparatus.Dapper.Json.System" Version="0.1.2" />
+        <PackageReference Include="Dapper" Version="2.0.123" />
+        <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+        <PackageReference Include="dbup-core" Version="5.0.10" />
+        <PackageReference Include="dbup-sqlserver" Version="5.0.8" />
+        <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Spatial" Version="7.14.0" />
+        <PackageReference Include="NetTopologySuite" Version="2.5.0" />
+        <PackageReference Include="NetTopologySuite.IO.PostGis" Version="2.1.0" />
+        <PackageReference Include="System.Text.Json" Version="7.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="JsonHandlers" />
+    </ItemGroup>
+
+</Project>
