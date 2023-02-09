@@ -22,3 +22,6 @@ Er is een zeer eenvoudig voorbeeld datamodel aanwezig, echter deze hoeft niet ge
 - Specificeren en implementeren van API voor verwijderen/toevoegen van data (referentie en observaties).
 - Specificeren van security (OOAUTH2 Client Credential Flow en OAUTH2 Resource Owner Flow) volgens Kennisplatform API.
 - Specificeren van de semantische specificatie
+- Specificeren van bulkverwerking
+- Specificeren van MQTT toevoegingen
+- Specificeren van MQTT abonnementen
