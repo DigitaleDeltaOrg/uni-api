@@ -2,7 +2,6 @@
     "openapi": "3.0.1",
     "info": {
         "title": "OData Service for namespace Default",
-        "description": "This OData service is located at https://localhost:44337/odata",
         "version": "1.0.1",
         "x-ms-generated-by": {
             "toolName": "Microsoft.OpenApi.OData",
@@ -10,9 +9,6 @@
         }
     },
     "servers": [
-        {
-            "url": "https://localhost:44337/odata"
-        }
     ],
     "paths": {
         "//Observation": {
