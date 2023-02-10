@@ -1,1 +1,163 @@
-
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:DataServices>
+        <Schema Namespace="DigitaleDelta" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <ComplexType Name="ODataNamedValueDictionary_1OfString" OpenType="true" />
+            <EntityType Name="Reference">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" />
+                <Property Name="TaxonGroupId" Type="Edm.String" />
+                <Property Name="TaxonTypeId" Type="Edm.String" />
+                <Property Name="TaxonParentId" Type="Edm.String" />
+                <Property Name="Type" Type="Edm.String" Nullable="false" />
+                <Property Name="Organisation" Type="Edm.String" Nullable="false" />
+                <Property Name="Code" Type="Edm.String" Nullable="false" />
+                <Property Name="Geometry" Type="Edm.GeometryPoint" />
+                <Property Name="Description" Type="Edm.String" />
+                <Property Name="ExternalKey" Type="Edm.String" />
+                <Property Name="TaxonRank" Type="Edm.String" />
+                <Property Name="TaxonAuthors" Type="Edm.String" />
+                <Property Name="TaxonNameNl" Type="Edm.String" />
+                <Property Name="ParameterType" Type="Edm.String" />
+                <Property Name="TaxonStatusCode" Type="Edm.String" />
+                <Property Name="CasNumber" Type="Edm.String" />
+                <NavigationProperty Name="TaxonGroup" Type="DigitaleDelta.Reference">
+                    <ReferentialConstraint Property="TaxonGroupId" ReferencedProperty="Id" />
+                </NavigationProperty>
+                <NavigationProperty Name="TaxonType" Type="DigitaleDelta.Reference">
+                    <ReferentialConstraint Property="TaxonTypeId" ReferencedProperty="Id" />
+                </NavigationProperty>
+                <NavigationProperty Name="TaxonParent" Type="DigitaleDelta.Reference">
+                    <ReferentialConstraint Property="TaxonParentId" ReferencedProperty="Id" />
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Observation">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" />
+                <Property Name="Type" Type="Edm.String" Nullable="false" />
+                <Property Name="ResultTime" Type="Edm.DateTimeOffset" Nullable="false" />
+                <Property Name="PhenomenonTime" Type="Edm.DateTimeOffset" />
+                <Property Name="ValidTime" Type="Edm.DateTimeOffset" />
+                <Property Name="Parameter" Type="DigitaleDelta.ODataNamedValueDictionary_1OfString" />
+                <Property Name="Metadata" Type="DigitaleDelta.ODataNamedValueDictionary_1OfString" />
+                <NavigationProperty Name="RelatedObservations" Type="Collection(DigitaleDelta.Observation)" />
+                <NavigationProperty Name="Foi" Type="DigitaleDelta.ParameterReference" />
+                <NavigationProperty Name="ObservedProperty" Type="DigitaleDelta.ParameterReference" />
+                <NavigationProperty Name="ObservingProcedure" Type="DigitaleDelta.ParameterReference" />
+                <NavigationProperty Name="Observer" Type="DigitaleDelta.ParameterReference" />
+                <NavigationProperty Name="Host" Type="DigitaleDelta.ParameterReference" />
+                <NavigationProperty Name="Result" Type="DigitaleDelta.Result" Nullable="false" />
+            </EntityType>
+            <EntityType Name="ParameterReference">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" />
+                <Property Name="Type" Type="Edm.String" />
+                <Property Name="Organisation" Type="Edm.String" />
+                <Property Name="Code" Type="Edm.String" />
+                <Property Name="Description" Type="Edm.String" />
+                <Property Name="Role" Type="Edm.String" />
+                <Property Name="TaxonRank" Type="Edm.String" />
+                <Property Name="TaxonAuthors" Type="Edm.String" />
+                <Property Name="TaxonNameNl" Type="Edm.String" />
+                <Property Name="ParameterType" Type="Edm.String" />
+                <Property Name="TaxonStatusCode" Type="Edm.String" />
+                <Property Name="CasNumber" Type="Edm.String" />
+                <Property Name="TaxonTypeId" Type="Edm.String" />
+                <Property Name="TaxonGroupId" Type="Edm.String" />
+                <Property Name="TaxonParentId" Type="Edm.String" />
+                <Property Name="TaxonType" Type="Edm.String" />
+                <Property Name="TaxonGroup" Type="Edm.String" />
+                <Property Name="TaxonParent" Type="Edm.String" />
+                <Property Name="Geometry" Type="Edm.GeometryPoint" />
+            </EntityType>
+            <EntityType Name="Result">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" />
+                <Property Name="Truth" Type="Edm.Boolean" />
+                <Property Name="Count" Type="Edm.Int64" />
+                <Property Name="Measure" Type="DigitaleDelta.Measure" />
+                <Property Name="Vocab" Type="DigitaleDelta.CategoryVerb" />
+                <Property Name="Geometry" Type="Edm.GeometryPoint" />
+                <NavigationProperty Name="Timeseries" Type="DigitaleDelta.TimeseriesResult" />
+            </EntityType>
+            <ComplexType Name="Measure">
+                <Property Name="Uom" Type="Edm.String" Nullable="false" />
+                <Property Name="Value" Type="Edm.Double" Nullable="false" />
+            </ComplexType>
+            <ComplexType Name="CategoryVerb">
+                <Property Name="Vocabulary" Type="Edm.String" Nullable="false" />
+                <Property Name="Term" Type="Edm.String" Nullable="false" />
+            </ComplexType>
+            <EntityType Name="TimeseriesResult">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" />
+                <Property Name="Type" Type="Edm.String" Nullable="false" />
+                <Property Name="MetaData" Type="DigitaleDelta.TimeseriesMetadata" />
+                <Property Name="DefaultPointMetaData" Type="DigitaleDelta.PointMetadata" />
+                <Property Name="Points" Type="Collection(DigitaleDelta.PointData)" Nullable="false" />
+            </EntityType>
+            <ComplexType Name="TimeseriesMetadata">
+                <Property Name="TemporalExtent" Type="Edm.String" />
+                <Property Name="BaseTime" Type="Edm.DateTimeOffset" Nullable="false" />
+                <Property Name="Spacing" Type="Edm.String" />
+                <Property Name="CommentBlock" Type="DigitaleDelta.CommentBlock" />
+                <Property Name="CommentBlocks" Type="Collection(DigitaleDelta.CommentBlock)" />
+                <Property Name="IntendedObservationSpacing" Type="Edm.String" />
+                <Property Name="Cumulative" Type="Edm.Boolean" />
+                <Property Name="AccumulationAnchorTime" Type="Edm.DateTimeOffset" />
+                <Property Name="StartAnchorPoint" Type="Edm.DateTimeOffset" />
+                <Property Name="EndAnchorPoint" Type="Edm.DateTimeOffset" />
+                <Property Name="MaxGapPeriod" Type="Edm.DateTimeOffset" />
+                <NavigationProperty Name="Status" Type="DigitaleDelta.Reference" />
+            </ComplexType>
+            <ComplexType Name="CommentBlock">
+                <Property Name="ApplicablePeriod" Type="Edm.String" Nullable="false" />
+                <Property Name="Comment" Type="Edm.String" Nullable="false" />
+            </ComplexType>
+            <ComplexType Name="PointMetadata">
+                <Property Name="Comment" Type="Edm.String" />
+                <Property Name="Accuracy" Type="DigitaleDelta.Measure" />
+                <Property Name="AggregationDuration" Type="Edm.DateTimeOffset" />
+                <NavigationProperty Name="Quality" Type="DigitaleDelta.Reference" />
+                <NavigationProperty Name="Uom" Type="DigitaleDelta.Reference" />
+                <NavigationProperty Name="InterpolationType" Type="DigitaleDelta.Reference" />
+                <NavigationProperty Name="NilReason" Type="DigitaleDelta.Reference" />
+                <NavigationProperty Name="CensoredReason" Type="DigitaleDelta.Reference" />
+                <NavigationProperty Name="RelatedObservation" Type="DigitaleDelta.Observation" />
+                <NavigationProperty Name="Qualifier" Type="DigitaleDelta.Reference" />
+                <NavigationProperty Name="Processing" Type="DigitaleDelta.Reference" />
+                <NavigationProperty Name="Source" Type="DigitaleDelta.Reference" />
+            </ComplexType>
+            <ComplexType Name="PointData">
+                <Property Name="Time" Type="Edm.DateTimeOffset" Nullable="false" />
+                <Property Name="Value" Type="Edm.Double" Nullable="false" />
+                <Property Name="MetaData" Type="DigitaleDelta.PointMetadata" />
+            </ComplexType>
+            <EntityType Name="RelatedObservation" BaseType="DigitaleDelta.Observation">
+                <Property Name="Role" Type="Edm.String" />
+            </EntityType>
+        </Schema>
+        <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="Container">
+                <EntitySet Name="reference" EntityType="DigitaleDelta.Reference">
+                    <NavigationPropertyBinding Path="TaxonGroup" Target="reference" />
+                    <NavigationPropertyBinding Path="TaxonParent" Target="reference" />
+                    <NavigationPropertyBinding Path="TaxonType" Target="reference" />
+                </EntitySet>
+                <EntitySet Name="observation" EntityType="DigitaleDelta.Observation">
+                    <NavigationPropertyBinding Path="RelatedObservations" Target="observation" />
+                </EntitySet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
