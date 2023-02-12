@@ -58,6 +58,29 @@ Query endpoints are used to retrieve data using OData. Implementation of these e
 #### /odata/reference
 
 The /reference endpoint uses OData to query references. References are considered immutable.
+References are described in [what is a reference](reference.md)
+A reference is anything classifiable within the implementation that can occur in the following properties of an observation:
+
+- foi (feature of interest)
+- observedProperty (quantity)
+- observingProcedure
+- observer
+- host
+- parameter
+- result/measure/uom (unit of measurement)
+- result/vocab/vocabulary
+- result/vocab/verb
+- result/timeseries/TimeseriesMetadata/Status
+- result/timeseries/PointMetadata/Accuracy/measure/uom
+- result/timeseries/PointMetadata/Quality
+- result/timeseries/PointMetadata/Uom
+- result/timeseries/PointMetadata/InterpolationType
+- result/timeseries/PointMetadata/NilReason
+- result/timeseries/PointMetadata/CensoredReason
+- result/timeseries/PointMetadata/Qualifier
+- result/timeseries/PointMetadata/Processing
+  
+This can be either a standard, or part of organisation-specific data **if** the semantic definition does not provide the same of approximate definition.
 
 #### /odata/observation
 
@@ -70,7 +93,8 @@ The purpose of management endpoints is to allow to add, modify or remove data.
 Notes:
 
 - Observations are considered immutable. Incorrect observations will have to be removed and re-added.
-- References are not considered immutable. Removal is only allowed to be removed if no observation uses the reference.
+- References are *not* considered immutable. For instance: the name of a taxon may change, but the taxon itself remains the same.
+- Removal of a reference is *only allowed* if no observation in the system uses the reference.
 
 #### /reference/add
 
