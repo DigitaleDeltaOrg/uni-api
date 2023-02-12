@@ -1,27 +1,106 @@
 # uni-api
 
-De UNI-API is een API voor waterbeheer in Nederland. Het is gebaseerd op een subset van Observations, Measurements and Sampling, met voldoende informatie om om te kunnen gaan met observaties, monsters, tijdsreeksen, grid, voorspellingen, etc.
+The UNI-API is an API for water management in the Netherlands. It is based on a subset of Observations, Measurements and Sampling, with sufficient room for handling observations, samples, time series, grids, predictions, etc.
 
-De API werkt met een OData definitie, die vastlegt hoe de structuren van data eruit ziet. Hiervan mag *NIET* worden afgeweken. Dit zorgt ervoor dat de zoekervaring van gebruikers gelijk is over verschillende implementaties van de UNI-API heen. Er is een versienummering gekoppeld aan deze specificatie, onderverdeeld in een *major* en een *minor* versie.
-Bij een *minor* revisie kunnen alleen niet-verplichte zaken worden toegevoegd. Alleen bij een *major* revisie kan nieuwe *verplichte functionaliteit* worden toegevoegd.
+The API defined three pieces of information to make sure that the experience of the user is the same across all different implementations of the UNI-API.
 
-Daarnaast is er een Open API Specificatie die aangeeft welke OData verbs worden ondersteund. Hiervan *MAG* worden afgeweken, maar alleen om aan de specificatie toe te voegen. Er *MAG* niets worden verwijderd.
-Ook hier geldt de voorgaande revisie regels.
+- OData definition
+- OAS definition
+- Semantic definition
 
-Naast deze technische specificatie leggen we ook een semantische specificatie vast: het zogenaamde 'OMS profiel voor waterbeheer NL'.
-Hierin wordt vastgelegd waar de verschillende entiteit types (zoals parameter, taxon, grootheid, levensstadium, lengteklasse) gedefinieerd zijn.
-Eigen entiteit types kunnen worden vastgelegd, maar zodra deze tot een standaard worden verheven, moet aan de specificaties van de betreffende standaard-instelling worden voldaan.
-Ook deze gebruikt weer dezelfde revisie regels.
+## OData definition
 
-Deze UNI-API implementatie (/DotNet) is open source en kan als volledige implementatie of als basis voor het implementeren worden gebruikt.
+The OData definition is standard across all UNI-API implementations. It's implementation is **mandatory** and deviations are not allowed.
+This will be known as 'NL Profiel Waterbeheer'.
 
-Er is een zeer eenvoudig voorbeeld datamodel aanwezig, echter deze hoeft niet ge&iuml;mplementeerd te worden. Het is waarschijnlijk dat de implementator een eigen datastorage laag wil gebruiken.
+Compliance may be checked by comparing the store definition in this GitHub with the generated definition at the /odata/$metadata endpoint.
+
+## OAS definition
+
+The Open API Specification defines the minimal requirements that de UNI-API **must** implement.
+
+The /bulk endpoint and the /subscribe endpoints are *optional*, but if implemented, **must** adhere to the specification.
+
+Compliance may be checked by comparing the store definition in this GitHub with the generated definition at the /odata/$openapi endpoint.
+
+### Query endpoints
+
+Query endpoints are used to retrieve data using OData. Implementation of these endpoints is *mandatory*.
+
+#### /odata/reference
+
+The /reference endpoint uses OData to query references. References are considered immutable.
+
+#### /odata/observation
+
+The /observation endpoint used OData to query observations, measurements, samples, timeseries, grids, etc.
+
+### Management endpoints (work in progress)
+
+The purpose of management endpoints is to allow to add, modify or remove data.
+
+Notes:
+
+- Observations are considered immutable. Incorrect observations will have to be removed and re-added.
+- References are not considered immutable. Removal is only allowed to be removed if no observation uses the reference.
+
+#### /reference/add
+
+The *optional* /reference/add endpoint is used to add a single reference.
+
+#### /reference/modify
+
+The *optional* /reference/modify endpoint is used to modify a single reference.
+
+#### /reference/remove
+
+The *optional* /reference/remove endpoint is used to remove a single reference.
+
+#### /observation/add
+
+The *optional* /observation/add endpoint is used to add a single observation.
+
+#### /observation/modify
+
+The *optional* /observation/modify endpoint is used to modify a single observation.
+
+#### /observation/bulk-insert
+
+The *optional* /observation/bulk-insert endpoint is used to add observations in bulk, meant to process payloads with many entities.
+The rationale to implement a bulk operation is that it can be used in optimized database features to copy data much faster than individual inserts or transactions allow. The number of items that can be inserted in one bulk operation depends on the implementation, but a suggested size of the maximum number of items accepted is 250000.
+This allows laboratories to add a checked bulk of measurements in a single operation.
+
+#### /observation/bulk-remove
+
+The *optional* /observation/bulk-remove endpoint is used to remove observations in bulk, meant to process payloads with many entities.
+The rationale to implement a bulk operation is that it can be used in optimized database features to copy data much faster than individual inserts or transactions allow. The number of items that can be inserted in one bulk operation depends on the implementation, but a suggested size of the maximum number of items accepted is 250000.
+This allows laboratories to remove incorrect data quickly.
+
+### Subscription endpoints (work in progress)
+
+Subscription endpoints can be used to subscribe some form of data changes. For instance: data is added to a specific location with a specific quantity. The MQTT protocol is used to communicate.
+
+#### /subscribe
+
+The *optional* /subscribe endpoint is used to subscribe to changes on a specific changes or additions to observations. It uses the MQTT protocol.
+
+## Semantic definition
+
+The semantic definition specifies where references are defined. The implementation is **mandatory**. For instance: parameters are defined in Aquo, quantities **must** exist in group 'quantity' within the Aquo Parameter table, biological taxa are defined in TWN, Length classes are defined as 'length class' in Aquo.
+This ensured that data is the same across the border and has the same meaning.
+
+Organisations can have there own classifications, next to the standard definition. However, if the semantic standard defines an entity, the use of that entity is **mandatory**.
+It is the responsibility of the implementor/data maintainer that the correct mapping is performed.
+
+## Proof of Concept
+
+In the /source/DotNet part of this GitHub repository, a simple implementation of a proof of concept is available in .NET 7/C# 11.
+It implements a simple yet functional and fast storage model using PostgreSQL 15. The implementor can, of course, implement their own storage model or extend their own platform to provide the functionality.
+
+The management and subscription endpoints are not yet implemented in the Proof of Concept. That part is Work in Progress.
 
 ## TODO
 
-- Specificeren en implementeren van API voor verwijderen/toevoegen van data (referentie en observaties).
-- Specificeren van security (OOAUTH2 Client Credential Flow en OAUTH2 Resource Owner Flow) volgens Kennisplatform API.
-- Specificeren van de semantische specificatie
-- Specificeren van bulkverwerking
-- Specificeren van MQTT toevoegingen
-- Specificeren van MQTT abonnementen
+- Specify the management endpoints
+- Specify the /subscribe endpoint
+- Specify the semantic definition
