@@ -1,23 +1,51 @@
 # uni-api
 
-The UNI-API is an API for water management in the Netherlands. It is based on a subset of Observations, Measurements and Sampling, with sufficient room for handling observations, samples, time series, grids, predictions, etc.
+The uni-api is an API for water management in the Netherlands. It is based on a *strict* subset of Observations, Measurements and Sampling, with sufficient room for handling observations, samples, time series, grids, predictions, etc.
 
-The API defined three pieces of information to make sure that the experience of the user is the same across all different implementations of the UNI-API.
+The API defined three pieces of information to make sure that the experience of the user is the same across all different implementations of the uni-api.
 
 - OData definition
 - OAS definition
 - Semantic definition
 
+## Definitions
+
+All the definition specifications have a semantic version system according to [semver.org](https://semver.org/).
+Patches are not used, only **MAJOR** and *MINOR* versions.
+
+The **MAJOR** version is always the 4-digit year of the specification.
+
+*MINOR* versions are not allowed to break anything for implementations that use the same **MAJOR** version.
+*MINOR* versions are only allowed to **ADD** to the specification and cannot modify behavior.
+The implementor **MUST** implement a new **MAJOR** version within three months of the publication here on GitHub.
+The implementor is *encouraged* to support a new *MINOR* version as soon as possible.
+Older **MAJOR** version **MUST** be supported at least for ONE YEAR after a *MAJOR** version is released.
+This means that two **MAJOR** versions can co-exist.
+
+The client can request a specific **MAJOR** version by specifying the appropriate header:
+
+- sem=
+- oas=
+- odata=
+  
+the 'major-version' header with a specific version, i.e. 2023.
+
+The responses will always return the specific versions for the data:
+
+@sem=2023.01
+@oas=2023.01
+@odata=2023.01
+
 ## OData definition
 
-The OData definition is standard across all UNI-API implementations. It's implementation is **mandatory** and deviations are not allowed.
+The OData definition is standard across all uni-api implementations. It's implementation is **mandatory** and deviations are not allowed.
 This will be known as 'NL Profiel Waterbeheer'.
 
 Compliance may be checked by comparing the store definition in this GitHub with the generated definition at the /odata/$metadata endpoint.
 
 ## OAS definition
 
-The Open API Specification defines the minimal requirements that de UNI-API **must** implement.
+The Open API Specification defines the minimal requirements that de uni-api **must** implement.
 
 The /bulk endpoint and the /subscribe endpoints are *optional*, but if implemented, **must** adhere to the specification.
 
