@@ -24,9 +24,9 @@ This means that two **MAJOR** versions can co-exist.
 
 The client can request a specific **MAJOR** version by specifying the appropriate header:
 
-- sem=
-- oas=
-- odata=
+- sem
+- oas
+- odata
   
 the 'major-version' header with a specific version, i.e. 2023.
 
@@ -35,6 +35,8 @@ The responses will always return the specific versions for the data:
 @sem=2023.01
 @oas=2023.01
 @odata=2023.01
+
+This information is provided once per result page.
 
 ## OData definition
 

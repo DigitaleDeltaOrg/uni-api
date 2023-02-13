@@ -62,26 +62,22 @@
         { 
             "organisation": "HHN", 
             "referenceType": "parameter/note", 
-            "urn": "", 
-            "exclude": "" 
+            "urn": ""
         },
         { 
             "organisation": "RWS", 
             "referenceType": "parameter/note", 
-            "urn": "", 
-            "exclude": "" 
+            "urn": "" 
         },
         { 
             "organisation": "HHN", 
             "referenceType": "foi", 
-            "urn": "", 
-            "exclude": "" 
+            "urn": "" 
         },
         { 
             "organisation": "RWS", 
             "referenceType": "foi", 
-            "urn": "", 
-            "exclude": "" 
+            "urn": "" 
         }
     ]
 }
