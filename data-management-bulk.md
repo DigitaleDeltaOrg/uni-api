@@ -1,0 +1,52 @@
+# Bulk-processing
+
+Observations can allow bulk-processing: either add or remove observations.
+Updates in bulk are not defined, due to performance reasons. It is much faster to remove and add observations that are changed.
+This also follows the 'observation is immutable' assumption.
+
+Due to volume, the operations are asynchronous.
+
+Bulk-processing is not part in into REST.
+
+By using existing REST verbs a little different than REST defines, however, it is implementable:
+
+## Bulk add observations
+
+Observations are stored in the body of the POST request.
+
+[![Bulk add](https://mermaid.ink/img/pako:eNqNks1uwjAMx1_FymmT4AV6QOpop3Gg3WiZNNSL1xiIaJPOSdEQ4t2XLqBNmkDLyfnb_ln-OIraSBKRsPTRk64pUbhhbCsN_nXITtWqQ-1g2ijS7q9eEO-Jgx5ixpNJECN475sdKG2Jz5mZcQSsNlsHZg2XsFdslETvqX8VCU4PC9QIllm8LJ_yxWyVJv-iYe-2hpVFp4y-An3MFw-zJEmzW8S4YUJ5gE-wDl1voe-GAhZ4mJp1JK_QyzyHeZy9wSJ9WaZFWdys0nVs9nSBXkHG02n6XKbJnWPUFuuht7GS95UWI9ESt6ik3-dxSK-E21JLlYi8KZF3laj0ycf5yZjioGsROe5pJEI_592LaI2N9arf78qYnz9J5QzPw8F8383pCzQCwrg?type=png)](https://mermaid.live/edit#pako:eNqNks1uwjAMx1_FymmT4AV6QOpop3Gg3WiZNNSL1xiIaJPOSdEQ4t2XLqBNmkDLyfnb_ln-OIraSBKRsPTRk64pUbhhbCsN_nXITtWqQ-1g2ijS7q9eEO-Jgx5ixpNJECN475sdKG2Jz5mZcQSsNlsHZg2XsFdslETvqX8VCU4PC9QIllm8LJ_yxWyVJv-iYe-2hpVFp4y-An3MFw-zJEmzW8S4YUJ5gE-wDl1voe-GAhZ4mJp1JK_QyzyHeZy9wSJ9WaZFWdys0nVs9nSBXkHG02n6XKbJnWPUFuuht7GS95UWI9ESt6ik3-dxSK-E21JLlYi8KZF3laj0ycf5yZjioGsROe5pJEI_592LaI2N9arf78qYnz9J5QzPw8F8383pCzQCwrg)
+
+Once the request is approved, the client can [request the status](#request-status).
+The server only needs to approve or disapprove the request immidiately. Processing can occur in a later stage.
+The payload of the body is exactly the same as the OData output, minus the OData header and version properties.
+
+
+TODO: describe response
+
+## Bulk remove observations
+
+The ids of the observation to be removed are stored in the body of the POST request.
+
+[![Bulk remove](https://mermaid.ink/img/pako:eNqNks9uwjAMxl_FymmT4AV6QOpop3Gg3WiZNNSL1xga0SZd4qIhxLsvkKFtB9Bu8ecvP8t_DqI2kkQkHH0MpGtKFG4sdpUGgB4tq1r1qBmmrSLNZ_mPXpDdkQ168IwnkyBG8D60W7DUmR0FR2aYwKpNw2DWcLG9Yqsk-kz9q0hIeligRrDM4mX5lC9mqzT5Fw0HboxVDlkZfQX6mC8eZkmSZreIcWsJ5R4-wTHy4GDoTwWcb80PzTHJK_Qyz2EeZ2-wSF-WaVEWN6v0vfWDukCvIOPpNH0u0-SOLWqH9am3sZL3lRYj0ZHtUEm_zsPpeyW4oY4qEfmnRLutRKWP3ucnY4q9rkXEdqCRCP18r15Ea2ydV_1-V8b8xCQVGzsP93I-m-MX2NLCkQ?type=png)](https://mermaid.live/edit#pako:eNqNks9uwjAMxl_FymmT4AV6QOpop3Gg3WiZNNSL1xga0SZd4qIhxLsvkKFtB9Bu8ecvP8t_DqI2kkQkHH0MpGtKFG4sdpUGgB4tq1r1qBmmrSLNZ_mPXpDdkQ168IwnkyBG8D60W7DUmR0FR2aYwKpNw2DWcLG9Yqsk-kz9q0hIeligRrDM4mX5lC9mqzT5Fw0HboxVDlkZfQX6mC8eZkmSZreIcWsJ5R4-wTHy4GDoTwWcb80PzTHJK_Qyz2EeZ2-wSF-WaVEWN6v0vfWDukCvIOPpNH0u0-SOLWqH9am3sZL3lRYj0ZHtUEm_zsPpeyW4oY4qEfmnRLutRKWP3ucnY4q9rkXEdqCRCP18r15Ea2ydV_1-V8b8xCQVGzsP93I-m-MX2NLCkQ)
+
+Once the request is approved, the client can [request the status](#request-status).
+The server only needs to approve or disapprove the request immidiately. Processing can occur in a later stage.
+The payload consists of a list of ids of the observations that are to be removed.
+
+TODO: describe request
+
+## Request status
+
+A client can request the status of an operation by providing the transaction-id, retrieved from either the [bulk add](bulk-processing.md#bulk-add-observations) or [bulk-remove](#bulk-remove-observations) operations by means of a GET verb.
+
+[![Request status](https://mermaid.ink/img/pako:eNqNk81uwjAMx1_FyolJ8AI9IMHaaWii1Wi7D9RL1rgQQZPOSZkQ4t2XUqpNm9othyhxnJ8d5-8Ty7VA5jGD7zWqHH3JN8TLTIEbFScrc1lxZeF2L1HZ3_YY6YDU2lufyXTaGj2ghmosGMttbWBUaAJLXBmeW6nVRIqb9maoLQLJzdaCLqC7_sT3UnB3kn8L3h66IG00D9Jwlib30WqxDvx_0Xhtt5qk4U0OPdC7aDVf-H4QDhFne0Iujt0zUcALWFmi6YEmUQTLWfg6xEzVTukP9aNMvU9_CKPnwRyTjoMgFVSkN4TmrwRhFTymQZzEQ-SASJNpqIe2shJ7sPOZ3xFH3S8IcDMH_Wac9-UnDOCFOCiJ1VVRhVTSbLGvMNFDptiYlUgll8Lp-9Q4ZsxuscSMeW4pOO0ylqmz83OK0PFR5cyzVOOY1VWT4rUXmFfwvXFWp_e11l97FNJqWrYNdOmj8yc8Cx7Q?type=png)](https://mermaid.live/edit#pako:eNqNk81uwjAMx1_FyolJ8AI9IMHaaWii1Wi7D9RL1rgQQZPOSZkQ4t2XUqpNm9othyhxnJ8d5-8Ty7VA5jGD7zWqHH3JN8TLTIEbFScrc1lxZeF2L1HZ3_YY6YDU2lufyXTaGj2ghmosGMttbWBUaAJLXBmeW6nVRIqb9maoLQLJzdaCLqC7_sT3UnB3kn8L3h66IG00D9Jwlib30WqxDvx_0Xhtt5qk4U0OPdC7aDVf-H4QDhFne0Iujt0zUcALWFmi6YEmUQTLWfg6xEzVTukP9aNMvU9_CKPnwRyTjoMgFVSkN4TmrwRhFTymQZzEQ-SASJNpqIe2shJ7sPOZ3xFH3S8IcDMH_Wac9-UnDOCFOCiJ1VVRhVTSbLGvMNFDptiYlUgll8Lp-9Q4ZsxuscSMeW4pOO0ylqmz83OK0PFR5cyzVOOY1VWT4rUXmFfwvXFWp_e11l97FNJqWrYNdOmj8yc8Cx7Q)
+
+TODO: describe request
+
+## Request history
+
+To be transparent, all __actions__ need to be logged. The requester can at all times, request the history by means of a GET verb.
+
+[![Request history](https://mermaid.ink/img/pako:eNqNkl1LwzAUhv_KIVcK8w_kYlBt1SFrsR-iozehOVuDbVKTU6GM_XczM9ExNsxV8p43z-F8bFljJDLOHH6MqBuMldhY0dca_BmEJdWoQWiCu06hplO9QPuJNujBczOfB5FDqxwZO4VoagjBqk1LYNbwY3kRnZLCR5o_CULQgwKRQ5VGVfmY5YtVEv-LJkZqjVVOkDL6DPQ-y28XcZykl4hRZ1HICey-QY7QwSuQ6tGdgZZZBssofYM8ea6SoiwuwR-Qjnt0gsuerg6G61qzGevR9kJJP7Ht_kfNqMUea8b9VQr7XrNa77zP12-KSTeMkx1xxsZh35bDdBlfi8551U9wZczvG6XyqZZhJb43Y_cFTxu33Q?type=png)](https://mermaid.live/edit#pako:eNqNkl1LwzAUhv_KIVcK8w_kYlBt1SFrsR-iozehOVuDbVKTU6GM_XczM9ExNsxV8p43z-F8bFljJDLOHH6MqBuMldhY0dca_BmEJdWoQWiCu06hplO9QPuJNujBczOfB5FDqxwZO4VoagjBqk1LYNbwY3kRnZLCR5o_CULQgwKRQ5VGVfmY5YtVEv-LJkZqjVVOkDL6DPQ-y28XcZykl4hRZ1HICey-QY7QwSuQ6tGdgZZZBssofYM8ea6SoiwuwR-Qjnt0gsuerg6G61qzGevR9kJJP7Ht_kfNqMUea8b9VQr7XrNa77zP12-KSTeMkx1xxsZh35bDdBlfi8551U9wZczvG6XyqZZhJb43Y_cFTxu33Q)
+
+TODO: describe response

@@ -4,7 +4,7 @@
         { 
             "referenceType": "parameter/parameter",
             "urn": [ "https://aquo.nl/parameters", "https://ddecoapi.aquadesk.nl/v2/parameters?filter=type:eq:'TAXON'" ],
-            "organisation": ["TWN", "AQUO"],
+            "organisation": [ "TWN", "AQUO" ],
             "exclude": ["https://aquo.nl/quantity"],
             "description": "parameter/parameter"
          },
