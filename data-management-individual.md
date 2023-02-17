@@ -26,7 +26,7 @@ TODO: describe payload, responses.
 The *optional* /observation/add endpoint is used to add a single observation.
 TODO: describe payload, responses.
 
-## /observation/modify
+## /observation/remove
 
-The *optional* /observation/modify endpoint is used to modify a single observation.
+The *optional* /observation/remove endpoint is used to remove a single observation.
 TODO: describe payload, responses.

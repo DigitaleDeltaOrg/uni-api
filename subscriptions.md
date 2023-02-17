@@ -11,4 +11,3 @@ The subscription will be in the form of an OData query.
 The minimum subscription period will be 60 seconds.
 
 All subscription request must authorize via OAUTH2 Client Credential Flow.
-However, the Client Credential flow is not on the Kennisplatform API list.

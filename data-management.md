@@ -12,6 +12,6 @@ Notes:
 Management of individual entities is described [here](data-management-individual.md).
 Bulk-processing is described [here](data-management-bulk.md)
 
-Data management is *optional*.
+Data management is *optional*. It is also possible to only implement either bulk- or non-bulk operations.
 
 For all operations, security in the form of OAUTH2 Authorization Code flow is required.

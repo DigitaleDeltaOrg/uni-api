@@ -20,7 +20,8 @@ A reference is anything classifiable within the implementation that can occur in
 - result/timeseries/PointMetadata/CensoredReason
 - result/timeseries/PointMetadata/Qualifier
 - result/timeseries/PointMetadata/Processing
-  
-This can be either a standard, or part of organisation-specific data **if** the [semantic definition](Definition/Semantic/v2023.01/semantic.json) does not provide the same of approximate definition.
 
-The definition of reference in CSDL form can be found [here](Definition/csdl/v2023.01/csdl.xml).
+This can be either a standard, or part of organisation-specific data, 
+if the [semantic definition](Definition/Semantic/v2023.01/semantic.json) does not provide the same or approximate definition.
+
+The definition of reference can be found [here](Definition/csdl/v2023.01/csdl.xml).
