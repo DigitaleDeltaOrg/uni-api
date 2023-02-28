@@ -36,13 +36,7 @@
 					}
 				},
 				"Foi": {
-					"type": "string"
-				},
-				"ObservedProperty": {
-					"type": "string"
-				},
-				"Host": {
-					"type": "string"
+					"$ref": "./reference-schema.json"
 				},
 				"Result": {
 					"oneOf": [

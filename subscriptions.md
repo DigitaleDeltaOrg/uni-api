@@ -10,4 +10,7 @@ The subscription will be in the form of an OData query.
 
 The minimum subscription period will be 60 seconds.
 
-All subscription request must authorize via OAUTH2 Client Credential Flow.
+All subscription requests must authorize via OAUTH2 Client Credential Flow.
+
+TODO: Request format
+The response format will be the same as the response format for the [query](query.md).

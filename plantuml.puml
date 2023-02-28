@@ -1,0 +1,117 @@
+@startuml
+skinparam classAttributeIconSize 0
+title API Entity Diagram for csdl.xml
+
+class DigitaleDelta.Reference <<(N,white)entity>> #PaleGreen {
++Id: String
++Type: String
++Organisation: String
++Code: String
++Geometry: GeometryPoint [0..1]
++Description: String [0..1]
++ExternalKey: String [0..1]
+}
+
+class DigitaleDelta.Observation <<(N,white)entity>> #PaleGreen {
++Id: String
++Type: String
++ResultTime: DateTimeOffset
++PhenomenonTime: DateTimeOffset [0..1]
++ValidTime: DateTimeOffset [0..1]
+}
+DigitaleDelta.Observation +--> "[0..1]" DigitaleDelta.ODataNamedValueDictionary_1OfReference: Parameter
+DigitaleDelta.Observation +--> "[0..1]" DigitaleDelta.ODataNamedValueDictionary_1OfString: Metadata
+DigitaleDelta.Observation --> "0..*" DigitaleDelta.RelatedObservation: RelatedObservation
+DigitaleDelta.Observation --> "0..1" DigitaleDelta.Reference: Foi
+DigitaleDelta.Observation --> "0..1" DigitaleDelta.Reference: ObservedProperty
+DigitaleDelta.Observation --> "0..1" DigitaleDelta.Reference: ObservingProcedure
+DigitaleDelta.Observation --> "0..1" DigitaleDelta.Reference: Observer
+DigitaleDelta.Observation --> "0..1" DigitaleDelta.Reference: Host
+DigitaleDelta.Observation --> "1..1" DigitaleDelta.Result: Result
+
+class DigitaleDelta.Result <<(N,white)entity>> #PaleGreen {
++Id: String
++Truth: Boolean [0..1]
++Count: Int64 [0..1]
++Geometry: GeometryPoint [0..1]
+}
+DigitaleDelta.Result --> "[0..1]" DigitaleDelta.Measure: Measure
+DigitaleDelta.Result --> "[0..1]" DigitaleDelta.CategoryVerb: Vocab
+DigitaleDelta.Result --> "[0..1]" DigitaleDelta.TimeseriesResult: Timeseries
+
+class DigitaleDelta.TimeseriesResult <<(N,white)entity>> #PaleGreen {
++Id: String
++MetaData: TimeseriesMetadata [0..1]
++DefaultPointMetaData: PointMetadata [0..1]
+}
+DigitaleDelta.TimeseriesResult +--> "[0..1]" DigitaleDelta.TimeseriesMetadata: MetaData
+DigitaleDelta.TimeseriesResult +--> "[0..1]" DigitaleDelta.PointMetadata: DefaultPointMetaData
+DigitaleDelta.TimeseriesResult +--> "[1..*]" DigitaleDelta.PointData: Points
+
+class DigitaleDelta.RelatedObservation <<(N,white)entity>> #PaleGreen extends DigitaleDelta.Observation {
++Role: String
+}
+
+class DigitaleDelta.ODataNamedValueDictionary_1OfString <<stereotype>> #Skyblue {
++Role: String
+}
+
+class DigitaleDelta.ODataNamedValueDictionary_1OfReference <<stereotype>> #Skyblue {
++Role: String
+}
+DigitaleDelta.ODataNamedValueDictionary_1OfReference +--> "[0..*]" DigitaleDelta.Reference: Value
+
+class DigitaleDelta.Measure <<complexType>> #Skyblue {
++Value: Double
+}
+DigitaleDelta.Measure +--> DigitaleDelta.Reference: Uom
+
+class DigitaleDelta.CategoryVerb <<complexType>> #Skyblue {
++Vocabulary: String
++Term: String
+}
+
+class DigitaleDelta.TimeseriesMetadata <<complexType>> #Skyblue {
++TemporalExtent: String [0..1]
++BaseTime: DateTimeOffset
++Spacing: String [0..1]
++IntendedObservationSpacing: String [0..1]
++Cumulative: Boolean [0..1]
++AccumulationAnchorTime: DateTimeOffset [0..1]
++StartAnchorPoint: DateTimeOffset [0..1]
++EndAnchorPoint: DateTimeOffset [0..1]
++MaxGapPeriod: DateTimeOffset [0..1]
+-Status: Reference [0..1]
+}
+DigitaleDelta.TimeseriesMetadata +--> "[0..1]" DigitaleDelta.CommentBlock: CommentBlock
+DigitaleDelta.TimeseriesMetadata +--> "[0..*]" DigitaleDelta.CommentBlock: CommentBlocks
+
+class DigitaleDelta.CommentBlock <<complexType>> #Skyblue {
++ApplicablePeriod: String
++Comment: String
+}
+
+class DigitaleDelta.PointMetadata <<complexType>> #Skyblue {
++Comment: String [0..1]
++Accuracy: Measure [0..1]
++AggregationDuration: DateTimeOffset [0..1]
+-Quality: Reference [0..1]
+-Uom: Reference [0..1]
+-InterpolationType: Reference [0..1]
+-NilReason: Reference [0..1]
+-CensoredReason: Reference [0..1]
+-RelatedObservation: Observation [0..1]
+-Qualifier: Reference [0..1]
+-Processing: Reference [0..1]
+-Source: Reference [0..1]
+}
+DigitaleDelta.PointMetadata +--> "[0..1]" DigitaleDelta.Measure: Accuracy
+
+class DigitaleDelta.PointData <<complexType>> #Skyblue {
++Time: DateTimeOffset
++Value: Double
+}
+DigitaleDelta.PointData +--> "[0..1]" DigitaleDelta.PointMetadata: MetaData
+
+@enduml
+

@@ -24,4 +24,35 @@ A reference is anything classifiable within the implementation that can occur in
 This can be either a standard, or part of organisation-specific data, 
 if the [semantic definition](Definition/Semantic/v2023.01/semantic.json) does not provide the same or approximate definition.
 
+A reference should **always** convey meaning, so it should not solely be a UUID.
+If a UUID is used, 
+the reference should make use of a fragment (#) to add a human-readable text explaining the information.
+
 The definition of reference can be found [here](Definition/csdl/v2023.01/csdl.xml).
+Optional properties are allowed.
+
+A feature of interest should always include a link to a NEN3610:2022 compliant page, 
+detailing information about the measurement location.
+Information can include information such as: 
+
+- area usage
+- monitoring networks
+- reporting networks
+- water types
+- ecotopes
+- schematics
+- photos
+- documents
+
+Reference can include implementation-specific reference types, 
+such as monitoring networks, reporting networks, taxon types, taxon groups, etc.
+References can be used to improve filtering of data, thus improving the ease of use of the API.
+I.e. filtering on a monitoring network is easier than specifying a list of features of interest.
+
+## TODO
+
+- Consider: observedProperty, observingProcedure, observer and host*could* be moved to parameter, to simplify filtering. Since foi includes geometry, it should not be moved to parameter. Parameter is used to keep the search interface clean.
+- Examine impact of JSON-FG instead of GeoJSON.
+
+
+

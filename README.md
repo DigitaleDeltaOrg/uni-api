@@ -25,7 +25,7 @@ This means that two **MAJOR** versions can co-exist.
 The client can request a specific **MAJOR** version of **OData** by specifying the appropriate header:
 
 - odata
-  
+
 the 'major-version' header with a specific version, i.e. 2023.
 
 The responses will always return the specific versions for the data:
@@ -38,7 +38,7 @@ This information is provided once per result page.
 
 ## OData definition
 
-The OData definition is standard across all uni-api implementations. It's implementation is **mandatory** and deviations are **not** allowed.
+The OData definition is standard across all uni-api implementations. It's implementation is **mandatory** and specifies the **minimal** implementation required.
 This will be known as 'NL Profiel Waterbeheer'.
 
 Compliance may be checked by comparing the store definition in this GitHub with the generated definition at the /odata/$metadata endpoint.
@@ -47,7 +47,7 @@ Compliance may be checked by comparing the store definition in this GitHub with 
 
 The Open API Specification defines the minimal requirements that de uni-api **must** implement.
 
-The [query endpoints](query.md) are **mandatory**.
+The [query endpoints](query.md) for **odata and reference** are **mandatory**.
 
 The [data management](data-management.md) and [subscription endpoints](subscriptions.md) are *optional*, but if implemented, **must** adhere to the specification.
 
