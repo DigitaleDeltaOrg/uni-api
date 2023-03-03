@@ -38,12 +38,6 @@
 				"Foi": {
 					"type": "string"
 				},
-				"ObservedProperty": {
-					"type": "string"
-				},
-				"Host": {
-					"type": "string"
-				},
 				"Result": {
 					"oneOf": [
 						{
@@ -95,6 +89,12 @@
 				"Role",
 				"RelatedObservation"
 			]
+		},
+		"delete": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
 		}
 	},
 	"properties": {

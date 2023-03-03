@@ -1,21 +1,25 @@
 # Bulk-processing
 
 Observations can allow bulk-processing: either add or remove observations.
-Updates in bulk are not defined, due to performance reasons. It is much faster to remove and add observations that are changed.
+Updates in bulk are not defined, due to performance reasons. It is much faster to remove and add observations that have changed.
 This also follows the 'observation is immutable' tenet.
 
 Due to the expected volume of the request, the operations are asynchronous.
 
-Bulk-processing is not part in into REST.
+Bulk-processing is not easily implemented in REST. I.e. the ```DELETE``` verb does not allow a payload.
 
-By using existing REST verbs a little different from their intended use in REST, however, it is implementable:
+By using existing REST verbs a little different from their intended use in REST, however, it is implementable using ```POST``` verbs.
 
-## Bulk add observations
+## Bulk management observations
 
 ### Phase 1: client requesting
 
-The client can request a bulk-add operation by sending a POST request to the `/bulk/add` endpoint.
-Observations are stored in the body of the POST request in the [bulk-add-schema format](Schemas/bulk-add-schema.json).
+The client can request a bulk-add operation by sending a ```POST```request to the `/bulk` endpoint.
+Observations are stored in the body of the ```POST```request in the [bulk-schema format](Schemas/bulk-schema.json).
+
+This payload is regarded as an 'upsert'. All entitites in the payload will first be removed from the storage, if they exist.
+
+Then all entities in the payload will be added to the storage.
 
 The payload of the request differs in some ways from the response retrieved from OData:
 
@@ -23,13 +27,13 @@ The payload of the request differs in some ways from the response retrieved from
 - A separate part of the body defines the relations between observations
 - There are no references present
 
-The server will authenticate the client. 
+The server will authenticate the client.
 If the client is not authenticated, the server will respond with a 401 Unauthorized response.
 
-The server will next check if the client is authorized to perform bulk-add operations. 
+The server will next check if the client is authorized to perform bulk-add operations.
 If the client is not authorized, the server will respond with a 403 Forbidden response.
 
-Then the server will check the size of the payload. 
+Then the server will check the size of the payload.
 If the payload is too large, the server will respond with a 413 Payload Too Large response.
 
 If the client passes the checks, the server will respond with a 202 Accepted response with a body consisting of a transaction-id.
@@ -42,11 +46,13 @@ The client can use the transaction-id to [check the status](#request-status).
 
 ### Phase 2: server processing
 
-Observations are stored in the body of the POST request in the [bulk-add-schema format](Schemas/bulk-add-schema.json).
+Observations are stored in the body of the ```POST```request in the [bulk-schema format](Schemas/bulk-schema) format.
 
 Existing observations that are in the payload are not overwritten, but removed and added again.
 
-Important: the process is transactional: if one operation fails, processing is reversed. 
+Observations, whose Id is listed in the remove property, will be removed.
+
+Important: the process is transactional: if one operation fails, processing is reversed.
 Partial processing is not allowed.
 
 The following procedure describes a suggested implementation:
@@ -61,47 +67,12 @@ The following procedure describes a suggested implementation:
 - Remove all observations for which the ids are already present in the storage medium.
 - Add all observations to the storage medium.
 - Add all relations to the storage medium.
+- Remove all observations whose Id is listed in the ```remove``` property.
 - If any of the steps failed, roll back the transaction, log the result of the action and return an error response containing the processing errors.
 - Commit the transaction.
 - Store a response (HTTP status code + body) and associate it with the transaction-id.
 
 The server will always associate the result of the action with the transaction-id.
-
-## Bulk remove observations
-
-### Phase 1: client requesting
-The client can request a bulk-remove operation by sending a POST request to the `/bulk/remove` endpoint.
-The ids of the observations to be removed, 
-are stored in the body of the POST request in the [bulk-remove-schema format](Schemas/bulk-remove-schema.json).
-
-The server will authenticate the client.
-If the client is not authenticated, the server will respond with a 401 Unauthorized response.
-
-The server will next check if the client is authorized to perform bulk-add operations.
-If the client is not authorized, the server will respond with a 403 Forbidden response.
-
-Then the server will check the size of the payload.
-If the payload is too large, the server will respond with a 413 Payload Too Large response.
-
-If the client passes the checks, the server will respond with a 202 Accepted response with a body consisting of a transaction-id.
-
-[![bulk-remove](https://mermaid.ink/img/pako:eNp1kctOwzAQRX_Fmi2N1KpdZYFU0Q1CPCQKCwiLIZ42Vm1P5NqVSpJ_x3mUBiq88r06M2PPrSBnSZDC1mFZiPUqsyKe5ftn0LvEkeEDfYgkuV4GX5D1KkdPAzNyqrFoWl7UD-zHrqwX09llZc_-BlvFTn2NBnWy-rkNI14snpy2_fwPf-49IDcF5bsnPGpG2bNjp-qEGNQw4tYeUKu2-_SyokdOYs0sNLot1YvZ_D_4tev2eHflHdo95l6xTVR8DUzAkDOoZEyjassziEsxlEEar5I2GLTPILNNROO_-floc0i9CzSBUMq4upXCmKOBdIN6H90S7RvzWZNUnt19n3gXfPMNh3mxDQ?type=png)](https://mermaid.live/edit#pako:eNp1kctOwzAQRX_Fmi2N1KpdZYFU0Q1CPCQKCwiLIZ42Vm1P5NqVSpJ_x3mUBiq88r06M2PPrSBnSZDC1mFZiPUqsyKe5ftn0LvEkeEDfYgkuV4GX5D1KkdPAzNyqrFoWl7UD-zHrqwX09llZc_-BlvFTn2NBnWy-rkNI14snpy2_fwPf-49IDcF5bsnPGpG2bNjp-qEGNQw4tYeUKu2-_SyokdOYs0sNLot1YvZ_D_4tev2eHflHdo95l6xTVR8DUzAkDOoZEyjassziEsxlEEar5I2GLTPILNNROO_-floc0i9CzSBUMq4upXCmKOBdIN6H90S7RvzWZNUnt19n3gXfPMNh3mxDQ)The client can use the transaction-id to [check the status](#request-status).
-
-Processing can occur in a later stage.
-
-### Phase 2: server processing
-
-The following procedure describes a suggested implementation:
-
-- Log the action and associate it with the transaction-id.
-- Check the payload. 
-- If the format does not conform to the [bulk-remove-schema format](Schemas/bulk-remove-schema.json), the server will respond with a 400 Bad Request response.
-- Start a transaction.
-- Remove all observations for which ids are in the payload.
-- If any of the steps failed, roll back the transaction, store a response a response (HTTP status code + body) and associate it with the transaction-id, and stop processing.
-- Commit the transaction.
-- Log the action and associate it with the transaction-id.
-- Store a response (HTTP status code + body) so that the client can retrieve it later and stop processing.
 
 ## Request status
 
@@ -116,6 +87,7 @@ The endpoint for this operation is /bulk/status.
 - If the transaction-id is known, the server will return the status of the transaction with transaction-id.
 
 [![bulk-status](https://mermaid.ink/img/pako:eNp9kcFOwzAMhl8l8nmVQOzUA9LEhMQBLh0cIBxM49FobVKlzgGyvjtJW2gHaDnZfz77l-0ApVUEObw7bCux20oj4tu8vPn6kHWM7LtXkWXXG88VGdYlMk3MQgnLpE-8OD5YXqrquL64_Fs5sqdgyqzTnwujIQ0_0WTxaPBbSe2vfvFz7wl5wlqraLFzaDosWVtzp8aif7_CTUXlQZxo83S31ptkuz7TYYALto5UMSxTGlhBQ65BreLaQ6qVEKdvSEIeQ0V79DVLkKaPaBzQFh-mhJydpxX4NnlsNcaDNZDvse6i2qJ5tnbOSenoeT-edrhw_wVR06wc?type=png)](https://mermaid.live/edit#pako:eNp9kcFOwzAMhl8l8nmVQOzUA9LEhMQBLh0cIBxM49FobVKlzgGyvjtJW2gHaDnZfz77l-0ApVUEObw7bCux20oj4tu8vPn6kHWM7LtXkWXXG88VGdYlMk3MQgnLpE-8OD5YXqrquL64_Fs5sqdgyqzTnwujIQ0_0WTxaPBbSe2vfvFz7wl5wlqraLFzaDosWVtzp8aif7_CTUXlQZxo83S31ptkuz7TYYALto5UMSxTGlhBQ65BreLaQ6qVEKdvSEIeQ0V79DVLkKaPaBzQFh-mhJydpxX4NnlsNcaDNZDvse6i2qJ5tnbOSenoeT-edrhw_wVR06wc)
+
 ## Request history
 
 The endpoint for this operation is /bulk/history.
@@ -124,5 +96,3 @@ To be transparent, all __actions__ need to be logged. The requester can at all t
 
 TODO: describe request
 TODO: describe response
-
-
