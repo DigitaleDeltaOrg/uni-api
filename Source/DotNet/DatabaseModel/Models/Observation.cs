@@ -10,10 +10,6 @@ public class Observation
 	public                  DateTime                      PhenomenonStart      { get; set; }
 	public                  DateTime?                     PhenomenonEnd        { get; set; }
 	public                  DateTime                      ResultTime           { get; set; }
-	public                  long?                         ObserverId           { get; set; }
-	public                  long?                         ObservedPropertyId   { get; set; }
-	public                  long?                         ObservingProcedureId { get; set; }
-	public                  long?                         HostId               { get; set; }
 	public                  long?                         FeatureOfInterestId  { get; set; }
 	public                  long?                         ResultUomId          { get; set; }
 	public                  double?                       ResultMeasure        { get; set; }
@@ -46,10 +42,6 @@ public class Observation
 		PhenomenonStart      = observation.PhenomenonStart;
 		PhenomenonEnd        = observation.PhenomenonEnd;
 		ResultTime           = observation.ResultTime;
-		ObserverId           = observation.ObserverId;
-		ObservedPropertyId   = observation.ObservedPropertyId;
-		ObservingProcedureId = observation.ObservingProcedureId;
-		HostId               = observation.HostId;
 		FeatureOfInterestId  = observation.FeatureOfInterestId;
 		ValidTimeStart       = observation.ValidTimeStart;
 		ValidTimeEnd         = observation.ValidTimeEnd;
@@ -66,10 +58,6 @@ public class Observation
 		dynamic.PhenomenonStart      = item.phenomenon_time_start;
 		dynamic.PhenomenonEnd        = item.phenomenon_time_end;
 		dynamic.ResultTime           = item.result_time;
-		dynamic.ObserverId           = item.observer_id;
-		dynamic.ObservedPropertyId   = item.observed_property_id;
-		dynamic.ObservingProcedureId = item.observing_procedure_id;
-		dynamic.HostId               = item.host_id;
 		dynamic.FeatureOfInterestId  = item.foi_id;
 		dynamic.ResultUomId          = item.result_uom_id;
 		dynamic.ResultMeasure        = item.result_measure;

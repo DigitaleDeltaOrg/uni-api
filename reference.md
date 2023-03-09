@@ -46,7 +46,7 @@ Information can include information such as:
 
 Reference can include implementation-specific reference types, 
 such as monitoring networks, reporting networks, taxon types, taxon groups, etc.
-References can be used to improve filtering of data, thus improving the ease of use of the API.
+References can be used to improve filtering of data, thus making the use of the API easier.
 I.e. filtering on a monitoring network is easier than specifying a list of features of interest.
 
 ## TODO

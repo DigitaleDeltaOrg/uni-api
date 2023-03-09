@@ -81,11 +81,7 @@ public class UniApiExport : IUniApiExport<DigitaleDelta.Observation>
 			PhenomenonTime     = databaseObservation.PhenomenonStart,
 			ValidTime          = databaseObservation.ValidTimeStart,
 			Foi                = GetParameterReferenceById(databaseObservation.FeatureOfInterestId, references, referencesByExternalKey, null),
-			ObservedProperty   = GetParameterReferenceById(databaseObservation.ObservedPropertyId, references, referencesByExternalKey, null),
-			ObservingProcedure = GetParameterReferenceById(databaseObservation.ObservingProcedureId, references, referencesByExternalKey, null),
 			Parameter          = GetExportReferencesForParameter(databaseObservation.Parameter, references, referencesByExternalKey),
-			Observer           = GetParameterReferenceById(databaseObservation.ObserverId, references, referencesByExternalKey, null),
-			Host               = GetParameterReferenceById(databaseObservation.HostId, references, referencesByExternalKey, null),
 			Result             = GetExportForResult(databaseObservation, references),
 			Metadata           = GetExportReferencesForMetadata(databaseObservation.Metadata)
 		};

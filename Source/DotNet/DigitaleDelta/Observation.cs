@@ -11,12 +11,8 @@ public class Observation : IBaseResponseObject
 	public              DateTimeOffset?                    PhenomenonTime      { get; set; }
 	public              DateTimeOffset?                    ValidTime           { get; set; }
 	[AutoExpand] public ParameterReference?                Foi                 { get; set; }
-	[AutoExpand] public ParameterReference?                ObservedProperty    { get; set; }
-	[AutoExpand] public ParameterReference?                ObservingProcedure  { get; set; }
 	public              ODataNamedValueDictionary<string>? Parameter           { get; set; }
 	public              ODataNamedValueDictionary<string>? Metadata            { get; set; }
-	[AutoExpand] public ParameterReference?                Observer            { get; set; }
-	[AutoExpand] public ParameterReference?                Host                { get; set; }
 	[AutoExpand] public Result                             Result              { get; set; } = new();
 	public              List<Observation>?                 RelatedObservations { get; set; }
 }

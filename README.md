@@ -73,3 +73,5 @@ The management and subscription endpoints are not yet implemented in the Proof o
 - Specify the management endpoints
 - Specify the subscription endpoint
 - Specify the semantic definition
+- GeoJSON crs
+
